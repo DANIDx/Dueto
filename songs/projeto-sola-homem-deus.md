@@ -3,25 +3,54 @@
   Projeto Sola
   Convencao de vozes:  [A] = Voce    [B] = Amigo    [AB] = os dois
   Uma linha por verso. Linha sem marca vira "Ambos".
-  Ajuste/renomeie as secoes conforme a musica e cole a letra no lugar dos "..."
 -->
 
-## Intro
-[AB] ...
-
 ## Verso 1
-[A] ...
-[B] ...
-
-## Refrao
-[AB] ...
+[AB] O céu escureceu
+[AB] A terra estremeceu
+[AB] As rochas se partiram
+[AB] Na Cruz, estava o Homem Deus
+[AB] O sangue derramado
+[AB] Lavou-nos do pecado
+[AB] O Santo Homem deu Sua vida pelos Seus
 
 ## Verso 2
-[A] ...
-[B] ...
+[AB] Carregando a própria Cruz
+[AB] Ao Calvário, Ele subiu
+[AB] E a sentença do pecado
+[AB] Estava sobre o Redentor
+[AB] Com o calcanhar ferido
+[AB] Pra cumprir a profecia
+[AB] A cabeça da serpente, o Cordeiro esmagou
 
-## Ponte
-[AB] ...
+## Refrão (2x)
+[AB] Morte, onde está a sua vitória?
+[AB] A vida renasceu, o Rei ressuscitou
+
+## Verso 1
+[AB] O céu escureceu
+[AB] A terra estremeceu
+[AB] As rochas se partiram
+[AB] Na Cruz, estava o Homem Deus
+[AB] O sangue derramado
+[AB] Lavou-nos do pecado
+[AB] O Santo Homem deu Sua vida pelos Seus
+
+## Refrão (2x)
+[AB] Morte, onde está a sua vitória?
+[AB] A vida renasceu, o Rei ressuscitou
+
+## Verso 2 (2x)
+[AB] Carregando a própria Cruz
+[AB] Ao Calvário, Ele subiu
+[AB] E a sentença do pecado
+[AB] Estava sobre o Redentor
+[AB] Com o calcanhar ferido
+[AB] Pra cumprir a profecia
+[AB] A cabeça da serpente, o Cordeiro esmagou
 
 ## Final
-[AB] ...
+[AB] (Morte, onde está) A sua vitória?
+[AB] A vida renasceu, o Rei ressuscitou
+[AB] Morte, onde está a sua vitória?
+[AB] A vida renasceu, o Rei ressuscitou

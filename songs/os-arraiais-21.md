@@ -3,25 +3,32 @@
   Os Arraiais
   Convencao de vozes:  [A] = Voce    [B] = Amigo    [AB] = os dois
   Uma linha por verso. Linha sem marca vira "Ambos".
-  Ajuste/renomeie as secoes conforme a musica e cole a letra no lugar dos "..."
 -->
 
-## Intro
-[AB] ...
-
 ## Verso 1
-[A] ...
-[B] ...
+[AB] Um bebê de Belém, homem de dor
+[AB] Consolação de Israel, rei das nações
+[AB] A semente prometida
 
-## Refrao
-[AB] ...
+## Refrão
+[AB] Príncipe da paz, o caminho, a verdade e vida
+[AB] Deus conosco, cordeiro de Deus, meu redentor
+[AB] E meu Jesus
 
 ## Verso 2
-[A] ...
-[B] ...
+[AB] O leão de Judá, Yeshua
+[AB] Meu juiz, mediador, pão do céu
+[AB] A palavra se fez carne
+
+## Refrão
+[AB] Príncipe da paz, o caminho, a verdade e vida
+[AB] Deus conosco, cordeiro de Deus, meu redentor
+[AB] E meu Jesus
 
 ## Ponte
-[AB] ...
+[AB] O messias esperado
 
 ## Final
-[AB] ...
+[AB] Príncipe da paz, o caminho, a verdade e vida
+[AB] Deus conosco, cordeiro de Deus, meu salvador
+[AB] E meu Jesus

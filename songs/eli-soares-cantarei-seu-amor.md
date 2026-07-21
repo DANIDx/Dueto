@@ -3,25 +3,46 @@
   Eli Soares
   Convencao de vozes:  [A] = Voce    [B] = Amigo    [AB] = os dois
   Uma linha por verso. Linha sem marca vira "Ambos".
-  Ajuste/renomeie as secoes conforme a musica e cole a letra no lugar dos "..."
 -->
 
-## Intro
-[AB] ...
-
 ## Verso 1
-[A] ...
-[B] ...
-
-## Refrao
-[AB] ...
+[AB] Velhos e crianças Te louvam
+[AB] Reinos e nações Te adoram
+[AB] Todo joelho se prostra e Te adora
+[AB] Toda língua confessa Teu reino
 
 ## Verso 2
-[A] ...
-[B] ...
+[AB] Vinte e quatro anciãos Te adoram sem cessar
+[AB] Querubins, serafins cantam
+[AB] Santo, Santo, Santo
 
-## Ponte
-[AB] ...
+## Refrão
+[AB] Cantarei Teu amor, viverei Tua vontade
+[AB] Cantarei Teu amor, viverei Tua vontade
+[AB] Cantarei Teu amor, viverei Tua vontade
+[AB] Cantarei Teu amor, viverei Tua vontade
+[AB] Pra sempre
+
+## Verso 1
+[AB] Velhos e crianças Te louvam
+[AB] Reinos e nações Te adoram
+[AB] Todo joelho se prostra e Te adora
+[AB] Toda língua confessa Teu reino
+
+## Verso 2
+[AB] Vinte e quatro anciãos Te adoram sem cessar
+[AB] Querubins, serafins cantam
+[AB] Santo, Santo, Santo
+
+## Refrão
+[AB] Eu cantarei Teu amor, viverei Tua vontade
+[AB] Cantarei Teu amor, viverei Tua vontade
+[AB] Cantarei Teu amor, viverei Tua vontade
+[AB] Cantarei Teu amor, viverei Tua vontade
+[AB] Pra sempre
 
 ## Final
-[AB] ...
+[AB] Pra sempre
+[AB] Sempre
+[AB] Sempre
+[AB] Pra sempre
