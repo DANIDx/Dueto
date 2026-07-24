@@ -1,3 +1,4 @@
+<meta charset="utf-8">
 <!--
   DUETO — folha de letras para cantar em dupla
   ---------------------------------------------
@@ -12,6 +13,13 @@
     [B]  linha do cantor B
     [AB] linha dos dois
   Linha sem marca = ambos.
+
+  Extras:
+    [AB>A]  ambos cantam, A na 1ª voz (melodia) / B na 2ª voz (harmonia). Também aceita [AB>B].
+    ~[B] texto   contra-canto: linha colada na linha ANTERIOR, cantada em paralelo (não é a próxima frase).
+                 Renderiza recuada, menor e em itálico. Aceita ~[A], ~[B], ~[AB].
+    ^palavra     (colado, sem espaço) melodia sobe nessa palavra → ↑palavra
+    _palavra     (colado, sem espaço) melodia desce nessa palavra → ↓palavra
 
   Para ver no tablet: ligue o GitHub Pages no repo e abra a URL.
   Para testar localmente: rode  python3 -m http.server  nesta pasta e abra http://localhost:8000
@@ -77,6 +85,13 @@
   .notice strong { color: var(--text); }
   .notice code { background: var(--surface); border: 1px solid var(--rule); border-radius: 6px; padding: 2px 7px; font-size: 15px; color: var(--voice-b); }
 
+  .lead-tag { display: block; font-family: var(--display); font-style: italic; font-weight: 500; font-size: 13px; color: var(--muted); margin-bottom: 2px; }
+  .pitch { font-size: .72em; color: var(--muted); margin-right: 1px; }
+
+  .line.counter { margin: -6px 0 5px 40px; }
+  .line.counter .ribbon { width: 3px; }
+  .words.counter-text { font-size: calc(var(--lyric-size) * .62); font-style: italic; opacity: .82; }
+
   @media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto; } }
   @media (max-width: 520px) { .legend { order: 3; width: 100%; } .brand { font-size: 18px; } .picker { max-width: 100%; } }
 </style>
@@ -96,8 +111,8 @@
 <script>
   // ── Config dos cantores: nome + cor (classe). Só mexer aqui pra renomear/recolorir.
   const VOICES = {
-    A:  { name: 'Você',  cls: 'a'  },
-    B:  { name: 'Amigo', cls: 'b'  },
+    A:  { name: 'Daniel',  cls: 'a'  },
+    B:  { name: 'Ícaro', cls: 'b'  },
     AB: { name: 'Ambos', cls: 'ab' },
   };
 
@@ -115,16 +130,37 @@
     for (const raw of md.split('\n')) {
       const t = raw.trim();
       if (!t || t.startsWith('<!--') || t.startsWith('-->')) continue;
-      if (t.startsWith('# ')) { s.title = t.slice(2).trim(); }
-      else if (t.startsWith('## ')) { section = { label: t.slice(3).trim(), lines: [] }; s.sections.push(section); }
-      else {
-        const m = t.match(/^\[([A-Za-z]+)\]\s*(.*)$/);
-        const code = m ? m[1].toUpperCase() : 'AB';
-        const text = m ? m[2] : t;
-        if (section) section.lines.push({ code, text });
+      if (t.startsWith('# ')) { s.title = t.slice(2).trim(); continue; }
+      if (t.startsWith('## ')) { section = { label: t.slice(3).trim(), lines: [] }; s.sections.push(section); continue; }
+      if (!section) continue;
+      const m = t.match(/^(~)?\[([A-Za-z]+)(?:>([A-Za-z]+))?\]\s*(.*)$/);
+      const isCounter = !!(m && m[1]);
+      const code = m ? m[2].toUpperCase() : 'AB';
+      const lead = m && m[3] ? m[3].toUpperCase() : null;
+      const text = m ? m[4] : t;
+      if (isCounter) {
+        const prev = section.lines[section.lines.length - 1];
+        if (prev) prev.counter = { code, text };
+      } else {
+        section.lines.push({ code, lead, text });
       }
     }
     return s;
+  }
+
+  // ^palavra (colado) = sobe · _palavra (colado) = desce
+  const ARROW_UP = '↑', ARROW_DOWN = '↓';
+  function renderPitch(text) {
+    return text
+      .replace(/_(?=\S)/g, `<span class="pitch">${ARROW_DOWN}</span>`)
+      .replace(/\^(?=\S)/g, `<span class="pitch">${ARROW_UP}</span>`);
+  }
+
+  function lineHtml(ln, isCounter) {
+    const v = VOICES[ln.code] || VOICES.AB;
+    const lead = ln.lead && VOICES[ln.lead] ? `<span class="lead-tag">1ª: ${VOICES[ln.lead].name}</span>` : '';
+    const wordsCls = isCounter ? `words t-${v.cls} counter-text` : `words t-${v.cls}`;
+    return `<div class="line${isCounter ? ' counter' : ''}"><div class="ribbon r-${v.cls}"></div><div class="${wordsCls}">${lead}${renderPitch(ln.text)}</div></div>`;
   }
 
   function render(i) {
@@ -134,8 +170,8 @@
     for (const sec of s.sections) {
       html += `<section class="section"><p class="section-label">${sec.label}</p>`;
       for (const ln of sec.lines) {
-        const v = VOICES[ln.code] || VOICES.AB;
-        html += `<div class="line"><div class="ribbon r-${v.cls}"></div><div class="words t-${v.cls}">${ln.text}</div></div>`;
+        html += lineHtml(ln, false);
+        if (ln.counter) html += lineHtml(ln.counter, true);
       }
       html += `</section>`;
     }
