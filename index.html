@@ -15,7 +15,7 @@
   Linha sem marca = ambos.
 
   Extras:
-    [AB>A]  ambos cantam, A na 1ª voz (melodia) / B na 2ª voz (harmonia). Também aceita [AB>B].
+    [AB>A]  ambos cantam, A na 1ª voz (melodia) / B na 2ª voz (harmonia) — rótulo mostra quem faz a 2ª voz. Também aceita [AB>B].
     ~[B] texto   contra-canto: linha colada na linha ANTERIOR, cantada em paralelo (não é a próxima frase).
                  Renderiza recuada, menor e em itálico. Aceita ~[A], ~[B], ~[AB].
     ^palavra     (colado, sem espaço) melodia sobe nessa palavra → ↑palavra
@@ -158,7 +158,8 @@
 
   function lineHtml(ln, isCounter) {
     const v = VOICES[ln.code] || VOICES.AB;
-    const lead = ln.lead && VOICES[ln.lead] ? `<span class="lead-tag">1ª: ${VOICES[ln.lead].name}</span>` : '';
+    const second = ln.lead === 'A' ? 'B' : ln.lead === 'B' ? 'A' : null;
+    const lead = second && VOICES[second] ? `<span class="lead-tag">2ª: ${VOICES[second].name}</span>` : '';
     const wordsCls = isCounter ? `words t-${v.cls} counter-text` : `words t-${v.cls}`;
     return `<div class="line${isCounter ? ' counter' : ''}"><div class="ribbon r-${v.cls}"></div><div class="${wordsCls}">${lead}${renderPitch(ln.text)}</div></div>`;
   }
