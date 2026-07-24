@@ -148,6 +148,7 @@
       const list = await (await fetch('songs.json')).json();
       songs = await Promise.all(list.map(async f => parse(await (await fetch(f)).text())));
       songs.forEach((s, i) => { const o = document.createElement('option'); o.value = i; o.textContent = s.title; picker.appendChild(o); });
+      picker.addEventListener('change', () => render(Number(picker.value)));
       render(0);
     } catch (e) {
       stage.innerHTML = `<div class="notice">
