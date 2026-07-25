@@ -12,14 +12,14 @@
 [A] Mas o poder do Espírito Santo
 [A] Sobre toda carne se derramará eeeh
 
-# Verso 2
+## Verso 2
 [B] A Bíblia diz
 [B] Que falsos profetas
 [B] Falsos cristos a muitos enganarão
 [B] Mas pela Palavra de Jesus
 [B] A Igreja, em Sua luz, caminhará
 
-# Pré Refrão
+## Pré Refrão
 [AB>B] Sua promessa breve se cumprirá
 [AB>B] E os remidos vão com Ele se encontrar
 
@@ -40,7 +40,7 @@
 [A] Mas pela graça de Jesus
 [A] Uma Igreja santa se levantará
 
-# Pré Refrão
+## Pré Refrão
 [AB>B] Sua promessa breve se cumprirá
 [AB>B] E os remidos vão com Ele se encontrar
 

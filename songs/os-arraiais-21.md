@@ -12,8 +12,9 @@
 
 ## Refrão
 [AB>A] Príncipe da paz, o caminho, a verdade e vida
-[AB>A] Deus conosco, cordeiro de Deus, meu redentor
-[AB>A] E meu Jesus
+[AB>A] Deus conosco
+[A] Cordeiro de Deus, meu redentor
+[A] E meu Jesus
 
 ## Verso 2
 [B] O leão de Judá, Yeshua
@@ -22,13 +23,15 @@
 
 ## Refrão
 [AB>A] Príncipe da paz, o caminho, a verdade e vida
-[AB>A] Deus conosco, cordeiro de Deus, meu redentor
-[AB>A] E meu Jesus
+[AB>A] Deus conosco
+[A] Cordeiro de Deus, meu redentor
+[A] E meu Jesus
 
 ## Ponte
 [B] O messias esperado
 
 ## Final
 [AB>B] Príncipe da paz, o caminho, a verdade e vida
-[AB>B] Deus conosco, cordeiro de Deus, meu salvador
-[AB>B] E meu Jesus
+[AB>B] Deus ^conosco
+[B] Cordeiro de Deus, meu salvador
+[B] E meu Jesus

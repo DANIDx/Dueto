@@ -23,7 +23,8 @@
   Linha sem marca = ambos.
 
   Extras:
-    [AB>A]  ambos cantam, A na 1ª voz (melodia) / B na 2ª voz (harmonia) — rótulo mostra quem faz a 2ª voz. Também aceita [AB>B].
+    [AB>A]  ambos cantam, A na 1ª voz (melodia) / B na 2ª voz (harmonia) — rótulo à esquerda da linha,
+            na cor de quem faz a 2ª voz. Também aceita [AB>B].
     ~[B] texto   contra-canto: linha colada na linha ANTERIOR, cantada em paralelo (não é a próxima frase).
                  Renderiza recuada, menor e em itálico. Aceita ~[A], ~[B], ~[AB].
     ^palavra     (colado, sem espaço) melodia sobe nessa palavra → ↑palavra
@@ -95,7 +96,7 @@
   .section { padding-bottom: 40px; }
   .section-label { position: sticky; top: var(--sticky-top); z-index: 5; background: var(--veil); backdrop-filter: blur(12px); font-family: var(--display); font-style: italic; font-weight: 500; font-size: clamp(12px, calc(var(--lyric-size) * .5), 30px); letter-spacing: .3px; color: var(--muted); text-transform: lowercase; margin: 0 -12px 12px; padding: 6px 12px 8px; border-bottom: 1px solid var(--rule); transition: top .2s ease; }
 
-  .line { display: flex; align-items: stretch; gap: 16px; padding: 9px 0; }
+  .line { position: relative; display: flex; align-items: stretch; gap: 16px; padding: 9px 0; }
   .ribbon { width: 7px; border-radius: 4px; flex: none; }
   .r-a { background: var(--voice-a); }
   .r-b { background: var(--voice-b); }
@@ -112,12 +113,34 @@
   .notice strong { color: var(--text); }
   .notice code { background: var(--surface); border: 1px solid var(--rule); border-radius: 6px; padding: 2px 7px; font-size: 15px; color: var(--voice-b); }
 
-  .lead-tag { display: block; font-family: var(--display); font-style: italic; font-weight: 500; font-size: 13px; color: var(--muted); margin-bottom: 2px; }
+  /* Etiqueta da 2ª voz: à ESQUERDA da fita, na cor de quem faz a harmonia.
+     Fica fora do fluxo (absolute) de propósito: assim ela pendura na margem e a
+     letra continua começando no mesmo x das linhas sem etiqueta. O line-height
+     igual à altura de uma linha de letra alinha a etiqueta com a 1ª linha do
+     texto mesmo quando a frase quebra em duas. */
+  .lead-tag {
+    position: absolute; right: 100%; top: 9px; margin-right: 14px;
+    font-family: var(--display); font-style: italic; font-weight: 600;
+    font-size: clamp(14px, calc(var(--lyric-size) * .45), 24px);
+    line-height: calc(var(--lyric-size) * 1.45);
+    white-space: nowrap; -webkit-user-select: none; user-select: none;
+  }
   .pitch { font-size: .72em; color: var(--muted); margin-right: 1px; }
 
   .line.counter { margin: -6px 0 5px 40px; }
   .line.counter .ribbon { width: 3px; }
   .words.counter-text { font-size: calc(var(--lyric-size) * .62); font-style: italic; opacity: .9; }
+
+  /* Sem margem lateral sobrando pra pendurar a etiqueta, ela volta pra cima da
+     linha. Grid (e não flex) porque as áreas deixam a fita cobrir as duas linhas
+     sem precisar de um wrapper em volta de etiqueta + letra. Linha sem etiqueta
+     tem a área "tag" vazia — com row-gap 0 ela não ocupa altura nenhuma. */
+  @media (max-width: 999px) {
+    .line { display: grid; grid-template-columns: auto 1fr; grid-template-areas: "ribbon tag" "ribbon words"; column-gap: 16px; row-gap: 0; }
+    .ribbon { grid-area: ribbon; }
+    .words { grid-area: words; }
+    .lead-tag { grid-area: tag; position: static; line-height: 1.35; margin: 0 0 2px; }
+  }
 
   @media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto; } .topbar, .section-label { transition: none; } }
   @media (max-width: 520px) { .legend { order: 3; width: 100%; } .picker { max-width: 100%; } }
@@ -193,9 +216,9 @@
   function lineHtml(ln, isCounter) {
     const v = VOICES[ln.code] || VOICES.AB;
     const second = ln.lead === 'A' ? 'B' : ln.lead === 'B' ? 'A' : null;
-    const lead = second && VOICES[second] ? `<span class="lead-tag">2ª: ${VOICES[second].name}</span>` : '';
+    const lead = second && VOICES[second] ? `<span class="lead-tag t-${VOICES[second].cls}">2ª: ${VOICES[second].name}</span>` : '';
     const wordsCls = isCounter ? `words t-${v.cls} counter-text` : `words t-${v.cls}`;
-    return `<div class="line${isCounter ? ' counter' : ''}"><div class="ribbon r-${v.cls}"></div><div class="${wordsCls}">${lead}${renderPitch(ln.text)}</div></div>`;
+    return `<div class="line${isCounter ? ' counter' : ''}">${lead}<div class="ribbon r-${v.cls}"></div><div class="${wordsCls}">${renderPitch(ln.text)}</div></div>`;
   }
 
   function render(i) {
