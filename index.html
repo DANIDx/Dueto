@@ -44,6 +44,10 @@
     --voice-b: #5fe6d8;    /* frio — clareado p/ brilhar no escuro */
     --voice-ab: #f2f0f8;   /* os dois — quase branco, contraste máximo */
 
+    /* Marcador de linha — ciano da voz B em baixa opacidade */
+    --mark-bg: rgba(95,230,216,.13);
+    --mark-line: rgba(95,230,216,.30);
+
     --lyric-size: 40px;
     --display: 'Fraunces', Georgia, serif;
     --body: 'Figtree', system-ui, -apple-system, sans-serif;
@@ -94,6 +98,9 @@
   .t-a { color: var(--voice-a); }
   .t-b { color: var(--voice-b); }
   .t-ab { color: var(--voice-ab); }
+
+  .line.marked { background: var(--mark-bg); box-shadow: inset 0 0 0 1px var(--mark-line); border-radius: 10px; margin: 0 -12px; padding: 9px 12px; }
+  .line.marked .ribbon { width: 11px; }
 
   .notice { max-width: 640px; margin: 8vh auto; padding: 0 24px; color: var(--muted); font-size: 17px; line-height: 1.6; }
   .notice strong { color: var(--text); }
@@ -214,6 +221,26 @@
   }
   prev.onclick = () => navigate(-1);
   next.onclick = () => navigate(1);
+
+  // Marcador "você está aqui": uma linha por vez, só na sessão.
+  // render() troca o innerHTML, então trocar de música limpa a marca — é o esperado.
+  let touchStart = null;
+  stage.addEventListener('pointerdown', e => { touchStart = { x: e.clientX, y: e.clientY }; });
+  stage.addEventListener('pointercancel', () => { touchStart = null; });
+  stage.addEventListener('pointerup', e => {
+    if (!touchStart) return;
+    const moved = Math.hypot(e.clientX - touchStart.x, e.clientY - touchStart.y);
+    touchStart = null;
+    if (moved > 10) return;   // foi arrasto pra rolar, não toque
+    let line = e.target.closest('.line');
+    if (!line) return;
+    // Contra-canto (~[B]) é extensão da linha de cima, não frase própria: marca a de cima.
+    if (line.classList.contains('counter')) line = line.previousElementSibling;
+    if (!line || !line.classList.contains('line')) return;
+    const was = line.classList.contains('marked');
+    stage.querySelector('.line.marked')?.classList.remove('marked');
+    if (!was) line.classList.add('marked');
+  });
 
   async function boot() {
     try {
