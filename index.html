@@ -111,7 +111,9 @@
 
 <div class="topbar" id="topbar">
   <div class="nav">
+    <button class="tbtn" id="prev" aria-label="Música anterior">⟨</button>
     <select class="picker" id="picker" aria-label="Escolher música"></select>
+    <button class="tbtn" id="next" aria-label="Próxima música">⟩</button>
   </div>
   <div class="legend" id="legend"></div>
   <div class="tools">
@@ -132,7 +134,10 @@
 
   const stage  = document.getElementById('stage');
   const picker = document.getElementById('picker');
+  const prev   = document.getElementById('prev');
+  const next   = document.getElementById('next');
   let songs = [];
+  let current = 0;   // índice da música na tela — as setas andam a partir dele
 
   document.getElementById('legend').innerHTML = Object.values(VOICES).map(v =>
     `<span class="chip"><span class="dot" style="background:var(--voice-${v.cls})"></span>${v.name}</span>`
@@ -193,8 +198,20 @@
     stage.innerHTML = html;
     window.scrollTo(0, 0);
     picker.value = i;
+    current = i;
+    // Sem wrap-around: na última música, ⟩ não faz nada em vez de voltar pra primeira
+    prev.disabled = i === 0;
+    next.disabled = i === songs.length - 1;
     localStorage.setItem('dueto:song', i);
   }
+
+  // Ordem do songs.json = ordem do show, então navegação sequencial basta.
+  function navigate(delta) {
+    const i = current + delta;
+    if (i >= 0 && i < songs.length) render(i);
+  }
+  prev.onclick = () => navigate(-1);
+  next.onclick = () => navigate(1);
 
   async function boot() {
     try {
