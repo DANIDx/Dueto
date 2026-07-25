@@ -74,6 +74,7 @@
   .tbtn { width: 56px; height: 56px; border-radius: 12px; border: 1px solid var(--rule); background: var(--surface); color: var(--text); font-family: var(--display); font-size: 22px; cursor: pointer; flex: none; }
   .tbtn:active { background: var(--rule); }
   .tbtn:hover { border-color: var(--muted); }
+  .tbtn.on { color: var(--voice-b); border-color: var(--voice-b); }
   .tbtn:disabled { opacity: .35; cursor: default; }
   .tbtn:focus-visible, .picker:focus-visible { outline: 2px solid var(--voice-b); outline-offset: 2px; }
 
@@ -119,6 +120,7 @@
   <div class="tools">
     <button class="tbtn" id="minus" aria-label="Diminuir a letra">A−</button>
     <button class="tbtn" id="plus" aria-label="Aumentar a letra">A+</button>
+    <button class="tbtn" id="fs" aria-label="Tela cheia">⛶</button>
   </div>
 </div>
 
@@ -240,6 +242,22 @@
   apply();
   document.getElementById('plus').onclick  = () => { size = Math.min(72, size + 3); apply(); };
   document.getElementById('minus').onclick = () => { size = Math.max(22, size - 3); apply(); };
+
+  // Tela cheia: some onde a API não existe, igual ao Wake Lock e ao SW.
+  const fsBtn = document.getElementById('fs');
+  if (!document.documentElement.requestFullscreen) {
+    fsBtn.remove();
+  } else {
+    fsBtn.onclick = () => {
+      if (document.fullscreenElement) document.exitFullscreen();
+      else document.documentElement.requestFullscreen().catch(() => {});
+    };
+    document.addEventListener('fullscreenchange', () => {
+      const on = !!document.fullscreenElement;
+      fsBtn.classList.toggle('on', on);
+      fsBtn.setAttribute('aria-label', on ? 'Sair da tela cheia' : 'Tela cheia');
+    });
+  }
 
   // Mantém a tela acesa durante o show; re-adquire ao voltar o foco.
   let wakeLock = null;
