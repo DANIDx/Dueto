@@ -81,3 +81,33 @@ Escolhas intencionais que podem parecer erro. Ler antes de "consertar".
 **Por que está certo:** o uso é num tablet, no palco, geralmente com luz baixa. Fundo escuro com texto claro é o que reduz ofuscamento, e as cores das vozes (`#ffb454` / `#5fe6d8`) foram escolhidas para brilhar sobre `#14131a`. Um tema claro exigiria uma segunda paleta calibrada.
 
 **Não "consertar"** adicionando `prefers-color-scheme` sem repensar as cores das vozes.
+
+---
+
+### 9. Marcador de linha não é persistido
+
+**Como parece:** esquecimento — tamanho da letra e música atual vão para o `localStorage`, mas a linha marcada não.
+
+**Por que está certo:** a marca significa "onde estou agora nesta música", não uma anotação de ensaio. Restaurá-la ao abrir colocaria na tela um "você está aqui" de dias atrás, que é pior que nenhum. Morrer com a troca de música sai de graça: `render()` substitui o `innerHTML`.
+
+**Não "consertar"** salvando em `localStorage`. Marcação permanente de trecho difícil foi avaliada e recusada: toque acidental deixaria lixo na tela.
+
+---
+
+### 10. Zoom nativo bloqueado de propósito
+
+**Como parece:** erro de acessibilidade — `user-scalable=no` é justamente o que as boas práticas mandam não fazer.
+
+**Por que está certo:** o app tem controle de tamanho próprio, de 22 a 72px, faixa maior que o pinch daria, e ele persiste. O zoom nativo só produzia desalinhamento acidental no meio do louvor, com a letra cortada na horizontal e sem jeito óbvio de voltar. `touch-action: pan-y` reforça (mata pinch e duplo-toque) e de brinde tira o atraso de ~300ms no toque, o que o marcador de linha aproveita.
+
+**Não "consertar"** liberando o zoom sem antes tirar os botões `A−`/`A+` — são a alternativa que justifica o bloqueio.
+
+---
+
+### 11. Barra retrátil é `sticky` com `transform`, não `fixed`
+
+**Como parece:** o natural para uma barra que aparece e desaparece seria `position: fixed`.
+
+**Por que está certo:** `sticky` mantém a altura da barra reservada no fluxo, no topo do documento, então `translateY(-100%)` a tira da vista sem abrir buraco e sem precisar de `padding-top` compensatório no `main`. Com `fixed`, essa compensação seria obrigatória — e frágil, porque a barra tem `flex-wrap` e muda de altura conforme a largura, exigindo remedir e reescrever o padding a cada `resize`.
+
+**Não "consertar"** trocando por `fixed`. A altura já é medida por `ResizeObserver`, mas só para posicionar o rótulo de seção (`--sticky-top`), que é um offset e não um espaçador.

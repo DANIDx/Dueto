@@ -22,6 +22,11 @@ O app é servido como arquivo estático direto do repositório pelo GitHub Pages
 | Fontes | `--display` (títulos/rótulos) e `--body` (UI), mais o `@import` do Google Fonts |
 | Ordem das músicas | `songs.json` |
 | Título exibido de uma música | A linha `# ` do `.md` correspondente |
+| Cor do marcador de linha | `--mark-bg` / `--mark-line` no `:root` |
+| Fundo translúcido da barra e do rótulo fixo | `--veil` no `:root` |
+| Sensibilidade da barra retrátil | Limiares `accDown > 60`, `accUp > 10` e `y < 40` no listener de `scroll` |
+| Tolerância do toque que marca linha | `moved > 10` no `pointerup` de `#stage` |
+| Estilo dos botões da barra | Classe `.tbtn` (um lugar só para os três grupos: setas, tamanho, tela cheia) |
 
 Regra geral: **editar uma letra nunca deve exigir tocar em `index.html`, e mexer em cor/nome nunca deve exigir tocar num `.md`.** Essa separação é o ponto principal do design.
 
