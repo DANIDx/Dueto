@@ -48,6 +48,9 @@
     --mark-bg: rgba(95,230,216,.13);
     --mark-line: rgba(95,230,216,.30);
 
+    --veil: rgba(20,19,26,.94);   /* fundo translúcido de barra e rótulo fixo */
+    --sticky-top: 0px;            /* offset do rótulo de seção; JS mantém sincronizado */
+
     --lyric-size: 40px;
     --display: 'Fraunces', Georgia, serif;
     --body: 'Figtree', system-ui, -apple-system, sans-serif;
@@ -65,11 +68,13 @@
 
   .topbar {
     position: sticky; top: 0; z-index: 10;
-    background: rgba(20,19,26,.86); backdrop-filter: blur(12px);
+    background: var(--veil); backdrop-filter: blur(12px);
     border-bottom: 1px solid var(--rule);
     padding: 14px clamp(16px,4vw,40px);
     display: flex; flex-wrap: wrap; align-items: center; gap: 14px 20px;
+    transition: transform .2s ease;
   }
+  .topbar.hidden { transform: translateY(-100%); }
   .picker { background: var(--surface); color: var(--text); border: 1px solid var(--rule); border-radius: 10px; padding: 13px 16px; font-family: var(--body); font-size: 17px; max-width: 60vw; }
   .legend { display: flex; gap: 14px; align-items: center; margin-right: auto; }
   .chip { display: inline-flex; align-items: center; gap: 7px; font-size: 14px; color: var(--muted); }
@@ -298,6 +303,36 @@
   document.addEventListener('visibilitychange', () => {
     if (document.visibilityState === 'visible' && wakeLock === null) keepAwake();
   });
+
+  // Esconde a barra ao rolar pra baixo (mais letra na tela); volta ao rolar
+  // pra cima ou ao chegar no topo da música.
+  const topbar = document.getElementById('topbar');
+  const root = document.documentElement;
+  let lastY = 0, accDown = 0, accUp = 0;
+
+  function syncSticky() {
+    // O rótulo de seção gruda embaixo da barra; com a barra escondida, no zero.
+    root.style.setProperty('--sticky-top', topbar.classList.contains('hidden') ? '0px' : topbar.offsetHeight + 'px');
+  }
+
+  function setBar(hidden) {
+    if (topbar.classList.contains('hidden') === hidden) return;
+    topbar.classList.toggle('hidden', hidden);
+    syncSticky();
+  }
+
+  // A barra tem flex-wrap: a altura muda com a largura, então é medida, não hardcoded.
+  new ResizeObserver(syncSticky).observe(topbar);
+
+  window.addEventListener('scroll', () => {
+    const y = Math.max(0, window.scrollY);
+    const d = y - lastY;
+    lastY = y;
+    if (y < 40) { accDown = accUp = 0; setBar(false); return; }
+    // Acumula em vez de reagir a cada delta: rolagem suave manda deltas de 2-3px.
+    if (d > 0) { accUp = 0; accDown += d; if (accDown > 60 && y > topbar.offsetHeight) setBar(true); }
+    else if (d < 0) { accDown = 0; accUp -= d; if (accUp > 10) setBar(false); }
+  }, { passive: true });
 
   if ('serviceWorker' in navigator) {
     window.addEventListener('load', () => navigator.serviceWorker.register('sw.js'));
