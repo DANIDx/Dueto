@@ -186,6 +186,8 @@
     }
     stage.innerHTML = html;
     window.scrollTo(0, 0);
+    picker.value = i;
+    localStorage.setItem('dueto:song', i);
   }
 
   async function boot() {
@@ -194,7 +196,8 @@
       songs = await Promise.all(list.map(async f => parse(await (await fetch(f)).text())));
       songs.forEach((s, i) => { const o = document.createElement('option'); o.value = i; o.textContent = s.title; picker.appendChild(o); });
       picker.addEventListener('change', () => render(Number(picker.value)));
-      render(0);
+      const saved = Number(localStorage.getItem('dueto:song'));
+      render(saved >= 0 && saved < songs.length ? saved : 0);
     } catch (e) {
       stage.innerHTML = `<div class="notice">
         <strong>Não consegui carregar as letras.</strong><br><br>
@@ -206,8 +209,12 @@
   }
   boot();
 
-  let size = 30;
-  const apply = () => document.documentElement.style.setProperty('--lyric-size', size + 'px');
+  let size = Number(localStorage.getItem('dueto:size')) || 30;
+  const apply = () => {
+    document.documentElement.style.setProperty('--lyric-size', size + 'px');
+    localStorage.setItem('dueto:size', size);
+  };
+  apply();
   document.getElementById('plus').onclick  = () => { size = Math.min(60, size + 3); apply(); };
   document.getElementById('minus').onclick = () => { size = Math.max(18, size - 3); apply(); };
 
