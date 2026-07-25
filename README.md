@@ -18,6 +18,15 @@ python3 -m http.server
 Depois abra <http://localhost:8000>. (Abrir o `index.html` direto pelo
 `file://` não funciona: o navegador bloqueia a leitura dos `.md`.)
 
+## Usar no palco
+
+- **Trocar de música:** setas `⟨` `⟩` na barra do topo seguem a ordem do `songs.json`, que é a ordem do show. O seletor continua ali para pular fora da sequência.
+- **Tamanho da letra:** `A−` / `A+` (22 a 72px). Fica salvo. O zoom do navegador está desligado de propósito — use esses botões.
+- **Não se perder:** toque numa linha para marcá-la; toque em outra para mover a marca, ou na mesma para tirar. A marca é só da sessão.
+- **Mais tela:** a barra do topo sai ao rolar para baixo e volta ao rolar para cima. O botão `⛶` põe em tela cheia.
+- **O nome da seção** (Verso, Refrão...) fica fixo no topo enquanto você rola.
+- A tela não apaga sozinha enquanto o app está aberto.
+
 ## Escrever uma letra
 
 Cada música é um arquivo em `songs/`. A convenção:

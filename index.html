@@ -1,4 +1,12 @@
 <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#14131a">
+<link rel="icon" href="icons/icon-192.png">
+<link rel="apple-touch-icon" href="icons/icon-192.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Dueto">
 <!--
   DUETO — folha de letras para cantar em dupla
   ---------------------------------------------
@@ -25,61 +33,80 @@
   Para testar localmente: rode  python3 -m http.server  nesta pasta e abra http://localhost:8000
 -->
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;1,9..144,500&family=Figtree:wght@400;500;600&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;1,9..144,500&family=Figtree:wght@400;500;600;700&display=swap');
 
   :root {
     --bg: #14131a; --surface: #1e1c26; --rule: rgba(255,255,255,.09);
     --text: #ecebf2; --muted: #8a8698;
 
     /* Cores dos cantores — mude aqui à vontade */
-    --voice-a: #ffb454;   /* quente */
-    --voice-b: #4fd6c9;   /* frio  */
-    --voice-ab: #c9a8ff;  /* os dois */
+    --voice-a: #ffb454;    /* quente */
+    --voice-b: #5fe6d8;    /* frio — clareado p/ brilhar no escuro */
+    --voice-ab: #f2f0f8;   /* os dois — quase branco, contraste máximo */
 
-    --lyric-size: 30px;
+    /* Marcador de linha — ciano da voz B em baixa opacidade */
+    --mark-bg: rgba(95,230,216,.13);
+    --mark-line: rgba(95,230,216,.30);
+
+    --veil: rgba(20,19,26,.94);   /* fundo translúcido de barra e rótulo fixo */
+    --sticky-top: 0px;            /* offset do rótulo de seção; JS mantém sincronizado */
+
+    --lyric-size: 40px;
     --display: 'Fraunces', Georgia, serif;
     --body: 'Figtree', system-ui, -apple-system, sans-serif;
   }
   * { box-sizing: border-box; }
   html, body { margin: 0; }
-  body { background: var(--bg); color: var(--text); font-family: var(--body); -webkit-font-smoothing: antialiased; line-height: 1.5; }
+  body {
+    background: var(--bg); color: var(--text); font-family: var(--body);
+    -webkit-font-smoothing: antialiased; line-height: 1.5;
+    -webkit-tap-highlight-color: transparent;
+    /* pan-y libera rolagem vertical e mata pinch + duplo-toque;
+       de brinde, tira o atraso de ~300ms no toque (ajuda o marcador de linha) */
+    touch-action: pan-y;
+  }
 
   .topbar {
     position: sticky; top: 0; z-index: 10;
-    background: rgba(20,19,26,.86); backdrop-filter: blur(12px);
+    background: var(--veil); backdrop-filter: blur(12px);
     border-bottom: 1px solid var(--rule);
     padding: 14px clamp(16px,4vw,40px);
     display: flex; flex-wrap: wrap; align-items: center; gap: 14px 20px;
+    transition: transform .2s ease;
   }
-  .brand { font-family: var(--display); font-weight: 600; font-size: 20px; letter-spacing: .5px; margin-right: auto; }
-  .brand span { color: var(--voice-a); }
-  .brand em { color: var(--voice-b); font-style: normal; }
-
-  .picker { background: var(--surface); color: var(--text); border: 1px solid var(--rule); border-radius: 10px; padding: 9px 12px; font-family: var(--body); font-size: 15px; max-width: 60vw; }
+  .topbar.hidden { transform: translateY(-100%); }
+  .picker { background: var(--surface); color: var(--text); border: 1px solid var(--rule); border-radius: 10px; padding: 13px 16px; font-family: var(--body); font-size: 17px; max-width: 60vw; }
   .legend { display: flex; gap: 14px; align-items: center; }
   .chip { display: inline-flex; align-items: center; gap: 7px; font-size: 14px; color: var(--muted); }
   .dot { width: 12px; height: 12px; border-radius: 4px; }
-  .sizer { display: flex; gap: 6px; }
-  .sizer button { width: 40px; height: 40px; border-radius: 10px; border: 1px solid var(--rule); background: var(--surface); color: var(--text); font-family: var(--display); font-size: 17px; cursor: pointer; }
-  .sizer button:hover { border-color: var(--muted); }
-  .sizer button:focus-visible, .picker:focus-visible { outline: 2px solid var(--voice-b); outline-offset: 2px; }
+  .nav, .tools { display: flex; gap: 8px; align-items: center; }
+  .nav { margin-right: auto; }
+  .tbtn { width: 56px; height: 56px; border-radius: 12px; border: 1px solid var(--rule); background: var(--surface); color: var(--text); font-family: var(--display); font-size: 22px; cursor: pointer; flex: none; }
+  .tbtn:active { background: var(--rule); }
+  .tbtn:hover { border-color: var(--muted); }
+  .tbtn.on { color: var(--voice-b); border-color: var(--voice-b); }
+  .tbtn:disabled { opacity: .35; cursor: default; }
+  .tbtn:focus-visible, .picker:focus-visible { outline: 2px solid var(--voice-b); outline-offset: 2px; }
 
   main { max-width: 820px; margin: 0 auto; padding: clamp(24px,5vw,56px) clamp(16px,4vw,40px) 120px; }
   .song-title { font-family: var(--display); font-weight: 600; font-size: clamp(30px,6vw,46px); line-height: 1.1; margin: 0 0 6px; }
   .song-sub { color: var(--muted); font-size: 15px; margin: 0 0 40px; }
 
-  .section { margin-bottom: 34px; }
-  .section-label { font-family: var(--display); font-style: italic; font-weight: 500; font-size: 15px; letter-spacing: .3px; color: var(--muted); text-transform: lowercase; margin: 0 0 12px; padding-bottom: 8px; border-bottom: 1px solid var(--rule); }
+  .section { padding-bottom: 40px; }
+  .section-label { position: sticky; top: var(--sticky-top); z-index: 5; background: var(--veil); backdrop-filter: blur(12px); font-family: var(--display); font-style: italic; font-weight: 500; font-size: clamp(12px, calc(var(--lyric-size) * .5), 30px); letter-spacing: .3px; color: var(--muted); text-transform: lowercase; margin: 0 -12px 12px; padding: 6px 12px 8px; border-bottom: 1px solid var(--rule); transition: top .2s ease; }
 
-  .line { display: flex; align-items: stretch; gap: 16px; padding: 5px 0; }
-  .ribbon { width: 5px; border-radius: 3px; flex: none; }
+  .line { display: flex; align-items: stretch; gap: 16px; padding: 9px 0; }
+  .ribbon { width: 7px; border-radius: 4px; flex: none; }
   .r-a { background: var(--voice-a); }
   .r-b { background: var(--voice-b); }
   .r-ab { background: linear-gradient(var(--voice-a) 0 50%, var(--voice-b) 50% 100%); }
-  .words { font-size: var(--lyric-size); font-weight: 500; line-height: 1.32; letter-spacing: .2px; }
+  .words { font-size: var(--lyric-size); font-weight: 700; line-height: 1.45; letter-spacing: .2px; -webkit-user-select: none; user-select: none; }
   .t-a { color: var(--voice-a); }
   .t-b { color: var(--voice-b); }
   .t-ab { color: var(--voice-ab); }
+
+  .line.marked { background: var(--mark-bg); box-shadow: inset 0 0 0 1px var(--mark-line); border-radius: 10px; margin: 0 -12px; padding: 9px 12px; }
+  .line.marked .ribbon { width: 11px; }
 
   .notice { max-width: 640px; margin: 8vh auto; padding: 0 24px; color: var(--muted); font-size: 17px; line-height: 1.6; }
   .notice strong { color: var(--text); }
@@ -90,19 +117,23 @@
 
   .line.counter { margin: -6px 0 5px 40px; }
   .line.counter .ribbon { width: 3px; }
-  .words.counter-text { font-size: calc(var(--lyric-size) * .62); font-style: italic; opacity: .82; }
+  .words.counter-text { font-size: calc(var(--lyric-size) * .62); font-style: italic; opacity: .9; }
 
-  @media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto; } }
-  @media (max-width: 520px) { .legend { order: 3; width: 100%; } .brand { font-size: 18px; } .picker { max-width: 100%; } }
+  @media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto; } .topbar, .section-label { transition: none; } }
+  @media (max-width: 520px) { .legend { order: 3; width: 100%; } .picker { max-width: 100%; } }
 </style>
 
-<div class="topbar">
-  <div class="brand"><span>DU</span><em>ETO</em></div>
-  <select class="picker" id="picker" aria-label="Escolher música"></select>
+<div class="topbar" id="topbar">
+  <div class="nav">
+    <button class="tbtn" id="prev" aria-label="Música anterior">⟨</button>
+    <select class="picker" id="picker" aria-label="Escolher música"></select>
+    <button class="tbtn" id="next" aria-label="Próxima música">⟩</button>
+  </div>
   <div class="legend" id="legend"></div>
-  <div class="sizer">
-    <button id="minus" aria-label="Diminuir a letra">A−</button>
-    <button id="plus" aria-label="Aumentar a letra">A+</button>
+  <div class="tools">
+    <button class="tbtn" id="minus" aria-label="Diminuir a letra">A−</button>
+    <button class="tbtn" id="plus" aria-label="Aumentar a letra">A+</button>
+    <button class="tbtn" id="fs" aria-label="Tela cheia">⛶</button>
   </div>
 </div>
 
@@ -118,7 +149,10 @@
 
   const stage  = document.getElementById('stage');
   const picker = document.getElementById('picker');
+  const prev   = document.getElementById('prev');
+  const next   = document.getElementById('next');
   let songs = [];
+  let current = 0;   // índice da música na tela — as setas andam a partir dele
 
   document.getElementById('legend').innerHTML = Object.values(VOICES).map(v =>
     `<span class="chip"><span class="dot" style="background:var(--voice-${v.cls})"></span>${v.name}</span>`
@@ -139,8 +173,8 @@
       const lead = m && m[3] ? m[3].toUpperCase() : null;
       const text = m ? m[4] : t;
       if (isCounter) {
-        const prev = section.lines[section.lines.length - 1];
-        if (prev) prev.counter = { code, text };
+        const last = section.lines[section.lines.length - 1];
+        if (last) last.counter = { code, text };
       } else {
         section.lines.push({ code, lead, text });
       }
@@ -178,7 +212,41 @@
     }
     stage.innerHTML = html;
     window.scrollTo(0, 0);
+    picker.value = i;
+    current = i;
+    // Sem wrap-around: na última música, ⟩ não faz nada em vez de voltar pra primeira
+    prev.disabled = i === 0;
+    next.disabled = i === songs.length - 1;
+    localStorage.setItem('dueto:song', i);
   }
+
+  // Ordem do songs.json = ordem do show, então navegação sequencial basta.
+  function navigate(delta) {
+    const i = current + delta;
+    if (i >= 0 && i < songs.length) render(i);
+  }
+  prev.onclick = () => navigate(-1);
+  next.onclick = () => navigate(1);
+
+  // Marcador "você está aqui": uma linha por vez, só na sessão.
+  // render() troca o innerHTML, então trocar de música limpa a marca — é o esperado.
+  let touchStart = null;
+  stage.addEventListener('pointerdown', e => { touchStart = { x: e.clientX, y: e.clientY }; });
+  stage.addEventListener('pointercancel', () => { touchStart = null; });
+  stage.addEventListener('pointerup', e => {
+    if (!touchStart) return;
+    const moved = Math.hypot(e.clientX - touchStart.x, e.clientY - touchStart.y);
+    touchStart = null;
+    if (moved > 10) return;   // foi arrasto pra rolar, não toque
+    let line = e.target.closest('.line');
+    if (!line) return;
+    // Contra-canto (~[B]) é extensão da linha de cima, não frase própria: marca a de cima.
+    if (line.classList.contains('counter')) line = line.previousElementSibling;
+    if (!line || !line.classList.contains('line')) return;
+    const was = line.classList.contains('marked');
+    stage.querySelector('.line.marked')?.classList.remove('marked');
+    if (!was) line.classList.add('marked');
+  });
 
   async function boot() {
     try {
@@ -186,7 +254,8 @@
       songs = await Promise.all(list.map(async f => parse(await (await fetch(f)).text())));
       songs.forEach((s, i) => { const o = document.createElement('option'); o.value = i; o.textContent = s.title; picker.appendChild(o); });
       picker.addEventListener('change', () => render(Number(picker.value)));
-      render(0);
+      const saved = Number(localStorage.getItem('dueto:song'));
+      render(saved >= 0 && saved < songs.length ? saved : 0);
     } catch (e) {
       stage.innerHTML = `<div class="notice">
         <strong>Não consegui carregar as letras.</strong><br><br>
@@ -198,8 +267,78 @@
   }
   boot();
 
-  let size = 30;
-  const apply = () => document.documentElement.style.setProperty('--lyric-size', size + 'px');
-  document.getElementById('plus').onclick  = () => { size = Math.min(60, size + 3); apply(); };
-  document.getElementById('minus').onclick = () => { size = Math.max(18, size - 3); apply(); };
+  let size = Number(localStorage.getItem('dueto:size')) || 40;
+  const apply = () => {
+    document.documentElement.style.setProperty('--lyric-size', size + 'px');
+    localStorage.setItem('dueto:size', size);
+  };
+  apply();
+  document.getElementById('plus').onclick  = () => { size = Math.min(72, size + 3); apply(); };
+  document.getElementById('minus').onclick = () => { size = Math.max(22, size - 3); apply(); };
+
+  // Tela cheia: some onde a API não existe, igual ao Wake Lock e ao SW.
+  const fsBtn = document.getElementById('fs');
+  if (!document.documentElement.requestFullscreen) {
+    fsBtn.remove();
+  } else {
+    fsBtn.onclick = () => {
+      if (document.fullscreenElement) document.exitFullscreen().catch(() => {});
+      else document.documentElement.requestFullscreen().catch(() => {});
+    };
+    document.addEventListener('fullscreenchange', () => {
+      const on = !!document.fullscreenElement;
+      fsBtn.classList.toggle('on', on);
+      fsBtn.setAttribute('aria-label', on ? 'Sair da tela cheia' : 'Tela cheia');
+    });
+  }
+
+  // Mantém a tela acesa durante o show; re-adquire ao voltar o foco.
+  let wakeLock = null;
+  const keepAwake = async () => {
+    try {
+      wakeLock = await navigator.wakeLock?.request('screen');
+      wakeLock?.addEventListener('release', () => { wakeLock = null; });
+    } catch (e) { /* sem suporte/permissão */ }
+  };
+  keepAwake();
+  document.addEventListener('visibilitychange', () => {
+    if (document.visibilityState === 'visible' && wakeLock === null) keepAwake();
+  });
+
+  // Esconde a barra ao rolar pra baixo (mais letra na tela); volta ao rolar
+  // pra cima ou ao chegar no topo da música.
+  const topbar = document.getElementById('topbar');
+  const root = document.documentElement;
+  let lastY = 0, accDown = 0, accUp = 0;
+
+  function syncSticky() {
+    // O rótulo de seção gruda embaixo da barra; com a barra escondida, no zero.
+    root.style.setProperty('--sticky-top', topbar.classList.contains('hidden') ? '0px' : topbar.offsetHeight + 'px');
+  }
+
+  function setBar(hidden) {
+    if (topbar.classList.contains('hidden') === hidden) return;
+    topbar.classList.toggle('hidden', hidden);
+    syncSticky();
+  }
+
+  // A barra tem flex-wrap: a altura muda com a largura, então é medida, não
+  // hardcoded. O ResizeObserver dispara uma vez ao observar — é essa primeira
+  // chamada que inicializa --sticky-top no load.
+  if (window.ResizeObserver) new ResizeObserver(syncSticky).observe(topbar);
+  else syncSticky();
+
+  window.addEventListener('scroll', () => {
+    const y = Math.max(0, window.scrollY);
+    const d = y - lastY;
+    lastY = y;
+    if (y < 40) { accDown = accUp = 0; setBar(false); return; }
+    // Acumula em vez de reagir a cada delta: rolagem suave manda deltas de 2-3px.
+    if (d > 0) { accUp = 0; accDown += d; if (accDown > 60 && y > topbar.offsetHeight) setBar(true); }
+    else if (d < 0) { accDown = 0; accUp -= d; if (accUp > 10) setBar(false); }
+  }, { passive: true });
+
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => navigator.serviceWorker.register('sw.js'));
+  }
 </script>
