@@ -6,29 +6,29 @@
 -->
 
 ## Verso 1
-[AB] Um bebê de Belém, homem de dor
-[AB] Consolação de Israel, rei das nações
-[AB] A semente prometida
+[A] Um bebê de Belém, homem de dor
+[A] Consolação de Israel, rei das nações
+[A] A semente prometida
 
 ## Refrão
-[AB] Príncipe da paz, o caminho, a verdade e vida
-[AB] Deus conosco, cordeiro de Deus, meu redentor
-[AB] E meu Jesus
+[AB>A] Príncipe da paz, o caminho, a verdade e vida
+[AB>A] Deus conosco, cordeiro de Deus, meu redentor
+[AB>A] E meu Jesus
 
 ## Verso 2
-[AB] O leão de Judá, Yeshua
-[AB] Meu juiz, mediador, pão do céu
-[AB] A palavra se fez carne
+[B] O leão de Judá, Yeshua
+[B] Meu juiz, mediador, pão do céu
+[AB>A] A palavra se fez carne
 
 ## Refrão
-[AB] Príncipe da paz, o caminho, a verdade e vida
-[AB] Deus conosco, cordeiro de Deus, meu redentor
-[AB] E meu Jesus
+[AB>A] Príncipe da paz, o caminho, a verdade e vida
+[AB>A] Deus conosco, cordeiro de Deus, meu redentor
+[AB>A] E meu Jesus
 
 ## Ponte
-[AB] O messias esperado
+[B] O messias esperado
 
 ## Final
-[AB] Príncipe da paz, o caminho, a verdade e vida
-[AB] Deus conosco, cordeiro de Deus, meu salvador
-[AB] E meu Jesus
+[AB>B] Príncipe da paz, o caminho, a verdade e vida
+[AB>B] Deus conosco, cordeiro de Deus, meu salvador
+[AB>B] E meu Jesus

@@ -6,13 +6,16 @@
 -->
 
 ## Verso 1
-[AB] O céu escureceu
-[AB] A terra estremeceu
-[AB] As rochas se partiram
-[AB] Na Cruz, estava o Homem Deus
-[AB] O sangue derramado
-[AB] Lavou-nos do pecado
-[AB] O Santo Homem deu Sua vida pelos Seus
+[A] O céu escureceu
+[A] A terra estremeceu
+[A] As rochas se partiram
+[A] Na Cruz, estava o Homem Deus
+[A] O sangue derramado
+[A] Lavou-nos do pecado
+[A] O Santo Homem deu Sua vida pelos Seus
+
+## Ponte (2x)
+[A] Uuuuh uh
 
 ## Verso 2
 [AB] Carregando a própria Cruz
@@ -27,18 +30,25 @@
 [AB] Morte, onde está a sua vitória?
 [AB] A vida renasceu, o Rei ressuscitou
 
+## Ponte (2x)
+[AB] Uuuuh uh
+
 ## Verso 1
-[AB] O céu escureceu
-[AB] A terra estremeceu
-[AB] As rochas se partiram
-[AB] Na Cruz, estava o Homem Deus
+[A] O céu escureceu
+[A] A terra estremeceu
+[A] As rochas se partiram
+[A] Na Cruz, estava o Homem Deus
 [AB] O sangue derramado
 [AB] Lavou-nos do pecado
 [AB] O Santo Homem deu Sua vida pelos Seus
 
-## Refrão (2x)
+## Refrão
 [AB] Morte, onde está a sua vitória?
 [AB] A vida renasceu, o Rei ressuscitou
+
+## Refrão
+[AB] Morte, onde está a sua vitória?
+[AB] A vida renasceu, o Rei ressuscitou^
 
 ## Verso 2 (2x)
 [AB] Carregando a própria Cruz
@@ -50,7 +60,11 @@
 [AB] A cabeça da serpente, o Cordeiro esmagou
 
 ## Final
-[AB] (Morte, onde está) A sua vitória?
+[A] (Morte, onde está)
+[B] A sua vitória?
 [AB] A vida renasceu, o Rei ressuscitou
 [AB] Morte, onde está a sua vitória?
 [AB] A vida renasceu, o Rei ressuscitou
+
+## Ponte
+[A] Uuuuh uh
