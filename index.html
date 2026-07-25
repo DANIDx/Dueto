@@ -1,4 +1,12 @@
 <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#14131a">
+<link rel="icon" href="icons/icon-192.png">
+<link rel="apple-touch-icon" href="icons/icon-192.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Dueto">
 <!--
   DUETO — folha de letras para cantar em dupla
   ---------------------------------------------
@@ -202,4 +210,8 @@
   const apply = () => document.documentElement.style.setProperty('--lyric-size', size + 'px');
   document.getElementById('plus').onclick  = () => { size = Math.min(60, size + 3); apply(); };
   document.getElementById('minus').onclick = () => { size = Math.max(18, size - 3); apply(); };
+
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => navigator.serviceWorker.register('sw.js'));
+  }
 </script>
