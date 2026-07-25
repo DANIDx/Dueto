@@ -76,10 +76,11 @@
   }
   .topbar.hidden { transform: translateY(-100%); }
   .picker { background: var(--surface); color: var(--text); border: 1px solid var(--rule); border-radius: 10px; padding: 13px 16px; font-family: var(--body); font-size: 17px; max-width: 60vw; }
-  .legend { display: flex; gap: 14px; align-items: center; margin-right: auto; }
+  .legend { display: flex; gap: 14px; align-items: center; }
   .chip { display: inline-flex; align-items: center; gap: 7px; font-size: 14px; color: var(--muted); }
   .dot { width: 12px; height: 12px; border-radius: 4px; }
   .nav, .tools { display: flex; gap: 8px; align-items: center; }
+  .nav { margin-right: auto; }
   .tbtn { width: 56px; height: 56px; border-radius: 12px; border: 1px solid var(--rule); background: var(--surface); color: var(--text); font-family: var(--display); font-size: 22px; cursor: pointer; flex: none; }
   .tbtn:active { background: var(--rule); }
   .tbtn:hover { border-color: var(--muted); }
@@ -92,7 +93,7 @@
   .song-sub { color: var(--muted); font-size: 15px; margin: 0 0 40px; }
 
   .section { padding-bottom: 40px; }
-  .section-label { position: sticky; top: var(--sticky-top); z-index: 5; background: var(--veil); backdrop-filter: blur(12px); font-family: var(--display); font-style: italic; font-weight: 500; font-size: clamp(12px, calc(var(--lyric-size) * .5), 30px); letter-spacing: .3px; color: var(--muted); text-transform: lowercase; margin: 0 -12px 12px; padding: 6px 12px 8px; border-bottom: 1px solid var(--rule); }
+  .section-label { position: sticky; top: var(--sticky-top); z-index: 5; background: var(--veil); backdrop-filter: blur(12px); font-family: var(--display); font-style: italic; font-weight: 500; font-size: clamp(12px, calc(var(--lyric-size) * .5), 30px); letter-spacing: .3px; color: var(--muted); text-transform: lowercase; margin: 0 -12px 12px; padding: 6px 12px 8px; border-bottom: 1px solid var(--rule); transition: top .2s ease; }
 
   .line { display: flex; align-items: stretch; gap: 16px; padding: 9px 0; }
   .ribbon { width: 7px; border-radius: 4px; flex: none; }
@@ -118,7 +119,7 @@
   .line.counter .ribbon { width: 3px; }
   .words.counter-text { font-size: calc(var(--lyric-size) * .62); font-style: italic; opacity: .9; }
 
-  @media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto; } }
+  @media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto; } .topbar, .section-label { transition: none; } }
   @media (max-width: 520px) { .legend { order: 3; width: 100%; } .picker { max-width: 100%; } }
 </style>
 
@@ -172,8 +173,8 @@
       const lead = m && m[3] ? m[3].toUpperCase() : null;
       const text = m ? m[4] : t;
       if (isCounter) {
-        const prev = section.lines[section.lines.length - 1];
-        if (prev) prev.counter = { code, text };
+        const last = section.lines[section.lines.length - 1];
+        if (last) last.counter = { code, text };
       } else {
         section.lines.push({ code, lead, text });
       }
@@ -281,7 +282,7 @@
     fsBtn.remove();
   } else {
     fsBtn.onclick = () => {
-      if (document.fullscreenElement) document.exitFullscreen();
+      if (document.fullscreenElement) document.exitFullscreen().catch(() => {});
       else document.documentElement.requestFullscreen().catch(() => {});
     };
     document.addEventListener('fullscreenchange', () => {
@@ -321,8 +322,11 @@
     syncSticky();
   }
 
-  // A barra tem flex-wrap: a altura muda com a largura, então é medida, não hardcoded.
-  new ResizeObserver(syncSticky).observe(topbar);
+  // A barra tem flex-wrap: a altura muda com a largura, então é medida, não
+  // hardcoded. O ResizeObserver dispara uma vez ao observar — é essa primeira
+  // chamada que inicializa --sticky-top no load.
+  if (window.ResizeObserver) new ResizeObserver(syncSticky).observe(topbar);
+  else syncSticky();
 
   window.addEventListener('scroll', () => {
     const y = Math.max(0, window.scrollY);
