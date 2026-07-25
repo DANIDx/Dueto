@@ -26,6 +26,8 @@
 [AB] Deus aqui está entronizado
 [AB] No meio dos louvores do seu povo
 
+## Instrumental
+
 ## Ponte
 [AB] Altos louvores cantamos a ti dia e noite
 [AB] Erguemos teu nome mais alto
@@ -35,6 +37,8 @@
 [AB>B] Altos louvores cantamos a ti dia e noite
 [AB>B] Erguemos teu nome mais alto
 [AB>B] Nós vamos cantar pra ti, dançar pra ti
+
+## Instrumental
 
 ## Refrão
 [A] Vamos adorar

@@ -32,14 +32,16 @@
 ## Verso 1
 [A] Velhos e crianças Te louvam
 [B] ... louvam
+  ~[A] uuhhh
 [A] Reinos e nações Te adoram
+  ~[A] AOoohh
 
 [AB>B] Todo joelho se prostra e Te adora
 [AB>B] Toda língua confessa Teu reino
 
 ## Verso 2
-[AB] Vinte e quatro anciãos Te adoram sem cessar
-[AB] Querubins, serafins cantam
+[AB] Vinte ^e quatro anciãos Te adoram sem cessar
+[AB] ^Querubins, serafins cantam
 [AB] Santo, Santo, Santo
 
 ## Refrão
@@ -55,6 +57,7 @@
   ~[A] Uo-o-o
 
 ## Final
+[A] Uo-o-o
 [B] Sempre
   ~[A] Uo-o-o
 [B] ^Sempre

@@ -6,7 +6,7 @@
 -->
 
 ## Verso 1
-[A] Que a estrada se abra a sua frente
+[A] Que a estrada se abra a tua frente
 [A] Que o vento sopre em teu rosto
 [A] Que o Sol resplandeça em tua face
 [A] E que a chuva caia suave em teus campos
@@ -22,8 +22,8 @@
 [AB>B] Que as gotas da chuva em teu rosto
 [B] Com a brisa lhe tragam alívio
 [AB>B] Que as tarefas comuns e diárias
-[B] Não sejam um peso ao teu coração
-[B] E mesmo ao se levantar sozinho, se lembre
+[B] Não sejam um peso - ao teu coração
+[B] E mesmo ao se levantar sozinho
 
 ## Refrão (2x)
 [AB>B] Que Deus lhe envolva em Seu amor

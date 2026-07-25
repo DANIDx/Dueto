@@ -40,7 +40,7 @@ Todo o JS vive num único `<script>` no fim do arquivo. Não há módulos, impor
 | `VOICES` | ~143 | Mapa `A`/`B`/`AB` → `{ name, cls }`. **Único lugar** para renomear os cantores. `cls` liga o código à cor CSS (`--voice-${cls}`, `.t-${cls}`, `.r-${cls}`) |
 | `parse(md)` | ~160 | Markdown → `{ title, sections[] }`. Uma passada linha a linha; ver "Regras do parser" abaixo |
 | `renderPitch(text)` | ~186 | Troca `^` por `<span class="pitch">↑</span>` e `_` por `↓`, só quando colados numa palavra (`/\^(?=\S)/`) |
-| `lineHtml(ln, isCounter)` | ~192 | Uma linha → `<div class="line">` com fita lateral (`.ribbon`) + texto. Resolve a etiqueta "2ª: Nome" do `[AB>X]` e aplica a classe `counter-text` no contra-canto |
+| `lineHtml(ln, isCounter)` | ~192 | Uma linha → `<div class="line">` com fita lateral (`.ribbon`) + etiqueta da 2ª voz + texto. Resolve a etiqueta "2ª: Nome" do `[AB>X]` (primeiro filho da `.line`, antes da fita, colorida com a voz de quem harmoniza) e aplica a classe `counter-text` no contra-canto |
 | `render(i)` | ~200 | Monta e injeta a música `i` em `#stage`; persiste o índice |
 | `current` / `navigate(delta)` | ~154 / ~223 | Índice da música na tela e navegação sequencial pelas setas `⟨`/`⟩`. Sem wrap-around: `render()` desabilita `#prev` na primeira e `#next` na última |
 | marcador de linha | ~230 | Delegação de `pointerdown`/`pointerup` em `#stage`. Toque só conta se o dedo andou <10px (senão arrasto pra rolar marcaria). Uma `.line.marked` por vez, em memória; contra-canto marca a linha principal anterior |

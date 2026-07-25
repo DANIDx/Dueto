@@ -47,7 +47,7 @@
 ## Final
 [AB] E então escute o lindo som que Deus tirou de notas tristes
 [AB] Preciso foi depravação pra que se pudesse ver
-[AB] Preço de sangue, a rendeção, se pode ver^
+[AB] Preço de sangue, a rendeção, se pode ver ^
 [AB] No gosto doce do perdão, pude entender e conhecer
 [B] O maior amor que existe
 [B] Cristo^

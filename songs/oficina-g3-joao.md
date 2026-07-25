@@ -60,7 +60,7 @@
 [AB] O céu se abriu e a terra se curvou
 [AB] Das águas levantou o Filho de Deus
 [AB] O céu se abriu e o Espírito desceu
-[AB] O Filho revelou e o Pai falou
+[AB] O Filho revelou e o Pai ^falou
 
 ## Verso
 [A] Com os meu olhos vi sair do Rio Jordão
@@ -71,21 +71,21 @@
 [B] Que traz o sorriso aos meus lábios
 
 ## Final
-[A] Hosana
-  ~[B] Ooo-ooo-sana
-[A] Hosana
-  ~[B] ^aaa- _aaa
-[A] Hosana ao nosso Rei
-  ~[B] ao nosso rei
+[B] Hosana
+  ~[A] Ooo-ooo-sana
+[B] Hosana
+  ~[A] ^aaa- _aaa
+[B] Hosana ao nosso Rei
+  ~[A] ao nosso rei
 
 ## Final
-[A] Hosana
-  ~[B] ^aaa- _aaa
-[AB>A] Hosana
-[AB>A] Hosana ao nosso Rei
+[B] Hosana
+  ~[A] ^aaa- _aaa
+[AB>B] Hosana
+[AB>B] Hosana ao nosso Rei
 
 ## Final
-[AB>A] Hosana
-[A] Hosana
-  ~[B] Hosana
-[AB>A] Hosana ao nosso Rei
+[AB>B] Hosana
+[B] Hosana
+  ~[A] Hosana
+[AB>B] Hosana ao nosso Rei

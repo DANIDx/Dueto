@@ -29,7 +29,7 @@ linha sem marca também é "ambos"
 | `[B] texto` | Linha do cantor B (cor fria) |
 | `[AB] texto` | Os dois juntos (quase branco, fita em gradiente) |
 | `texto` (sem marca) | Equivale a `[AB]` |
-| `[AB>A] texto` | Os dois cantam, **A faz a 1ª voz** (melodia) e B a 2ª (harmonia). A etiqueta renderizada mostra quem faz a 2ª voz: "2ª: <nome de B>" |
+| `[AB>A] texto` | Os dois cantam, **A faz a 1ª voz** (melodia) e B a 2ª (harmonia). A etiqueta "2ª: <nome de B>" fica **à esquerda** da linha, na cor de quem faz a 2ª voz |
 | `[AB>B] texto` | Idem, invertido |
 | `~[B] texto` | **Contra-canto**: cola na linha ANTERIOR e é cantado em paralelo com ela — não é a próxima frase. Renderiza recuado, menor e em itálico. Aceita `~[A]`, `~[B]`, `~[AB]` |
 | `^palavra` | Melodia sobe nessa palavra → `↑palavra`. O `^` tem que estar **colado** na palavra |

@@ -1,4 +1,4 @@
-const CACHE = 'dueto-v2';
+const CACHE = 'dueto-v3';
 const CORE = ['./', './index.html', './songs.json', './manifest.json'];
 
 self.addEventListener('install', event => {
