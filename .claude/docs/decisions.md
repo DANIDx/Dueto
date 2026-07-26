@@ -111,3 +111,13 @@ Escolhas intencionais que podem parecer erro. Ler antes de "consertar".
 **Por que está certo:** `sticky` mantém a altura da barra reservada no fluxo, no topo do documento, então `translateY(-100%)` a tira da vista sem abrir buraco e sem precisar de `padding-top` compensatório no `main`. Com `fixed`, essa compensação seria obrigatória — e frágil, porque a barra tem `flex-wrap` e muda de altura conforme a largura, exigindo remedir e reescrever o padding a cada `resize`.
 
 **Não "consertar"** trocando por `fixed`. A altura já é medida por `ResizeObserver`, mas só para posicionar o rótulo de seção (`--sticky-top`), que é um offset e não um espaçador.
+
+---
+
+### 12. `min-width: 0` em `.nav` e `.picker` não é enfeite
+
+**Como parece:** duas declarações redundantes — a barra já tem `flex-wrap: wrap` e o `.picker` já tem `max-width`, então parece que ela se ajustaria sozinha em tela estreita.
+
+**Por que está certo:** o piso de um flex item é o `min-content` dele, e o `min-content` de um `<select>` é o texto da opção mais longa — um `select` não quebra linha. Sem `min-width: 0`, o piso de `.nav` era 56 + ~300 + 56 = ~428px, e num celular de 360px a linha vazava para fora da viewport: o seletor aparecia cortado e o botão `⟩` ficava fora da tela. O `max-width: 100%` do `@media (max-width: 520px)` não resolvia porque porcentagem não vale enquanto o pai está calculando o tamanho intrínseco. Com `flex: 1; min-width: 0` o seletor encolhe e trunca com `text-overflow: ellipsis`; os `.tbtn` seguem `flex: none` para preservar os 56px de área de toque.
+
+**Não "consertar"** trocando por `overflow-x: hidden` no `body` — isso esconderia o sintoma e deixaria o botão `⟩` inalcançável. Medido em 320/360/390/414px: `documentElement.scrollWidth == clientWidth` em todos.

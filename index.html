@@ -76,12 +76,18 @@
     transition: transform .2s ease;
   }
   .topbar.hidden { transform: translateY(-100%); }
-  .picker { background: var(--surface); color: var(--text); border: 1px solid var(--rule); border-radius: 10px; padding: 13px 16px; font-family: var(--body); font-size: 17px; max-width: 60vw; }
+  /* min-width:0 nos dois é o que impede a barra de estourar a tela do celular:
+     o piso de um flex item é o min-content, e o min-content de um <select> é o
+     texto da opção mais longa (não quebra linha). Sem isso, .nav não encolhe
+     abaixo de 56+300+56px e a linha vaza pra fora da viewport — max-width em %
+     não segura, porque porcentagem não vale enquanto o pai calcula o intrínseco.
+     Os botões seguem flex:none pra manter os 56px de área de toque. */
+  .picker { flex: 1; min-width: 0; background: var(--surface); color: var(--text); border: 1px solid var(--rule); border-radius: 10px; padding: 13px 16px; font-family: var(--body); font-size: 17px; max-width: 60vw; text-overflow: ellipsis; }
   .legend { display: flex; gap: 14px; align-items: center; }
   .chip { display: inline-flex; align-items: center; gap: 7px; font-size: 14px; color: var(--muted); }
   .dot { width: 12px; height: 12px; border-radius: 4px; }
   .nav, .tools { display: flex; gap: 8px; align-items: center; }
-  .nav { margin-right: auto; }
+  .nav { margin-right: auto; min-width: 0; flex: 1 1 auto; }
   .tbtn { width: 56px; height: 56px; border-radius: 12px; border: 1px solid var(--rule); background: var(--surface); color: var(--text); font-family: var(--display); font-size: 22px; cursor: pointer; flex: none; }
   .tbtn:active { background: var(--rule); }
   .tbtn:hover { border-color: var(--muted); }
@@ -101,7 +107,9 @@
   .r-a { background: var(--voice-a); }
   .r-b { background: var(--voice-b); }
   .r-ab { background: linear-gradient(var(--voice-a) 0 50%, var(--voice-b) 50% 100%); }
-  .words { font-size: var(--lyric-size); font-weight: 700; line-height: 1.45; letter-spacing: .2px; -webkit-user-select: none; user-select: none; }
+  /* overflow-wrap: palavra longa + fonte grande em tela estreita rolava a página
+     na horizontal; melhor quebrar a palavra do que perder a letra fora da tela. */
+  .words { font-size: var(--lyric-size); font-weight: 700; line-height: 1.45; letter-spacing: .2px; overflow-wrap: break-word; -webkit-user-select: none; user-select: none; }
   .t-a { color: var(--voice-a); }
   .t-b { color: var(--voice-b); }
   .t-ab { color: var(--voice-ab); }
@@ -143,7 +151,15 @@
   }
 
   @media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto; } .topbar, .section-label { transition: none; } }
-  @media (max-width: 520px) { .legend { order: 3; width: 100%; } .picker { max-width: 100%; } }
+  @media (max-width: 520px) {
+    .legend { order: 3; width: 100%; }
+    .picker { max-width: 100%; }
+    /* Tela estreita: .nav ocupa a linha inteira e .tools desce, senão sobrariam
+       ~50px pro seletor. Padding menor pra caber os 3 botões de 56px. */
+    .topbar { padding-left: 12px; padding-right: 12px; gap: 12px; }
+    .nav { width: 100%; }
+    .tools { width: 100%; justify-content: flex-end; }
+  }
 </style>
 
 <div class="topbar" id="topbar">

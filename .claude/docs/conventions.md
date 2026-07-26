@@ -27,6 +27,7 @@ O app é servido como arquivo estático direto do repositório pelo GitHub Pages
 | Sensibilidade da barra retrátil | Limiares `accDown > 60`, `accUp > 10` e `y < 40` no listener de `scroll` |
 | Tolerância do toque que marca linha | `moved > 10` no `pointerup` de `#stage` |
 | Estilo dos botões da barra | Classe `.tbtn` (um lugar só para os três grupos: setas, tamanho, tela cheia) |
+| Layout da barra em tela estreita | `@media (max-width: 520px)` — `.nav` e `.tools` viram linhas próprias; `.picker` encolhe com `flex:1; min-width:0` |
 
 Regra geral: **editar uma letra nunca deve exigir tocar em `index.html`, e mexer em cor/nome nunca deve exigir tocar num `.md`.** Essa separação é o ponto principal do design.
 
